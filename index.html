@@ -1,83 +1,1000 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>SR Studio</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0f172a;
-            color: white;
-            text-align: center;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sharp Root Studio — Design That Cuts Through</title>
+  <meta name="description" content="Sharp Root Studio is a creative design agency specializing in branding, social media visuals, marketing design, and AI-powered creative content." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        header {
-            padding: 50px 20px;
-        }
+    :root {
+      --bg:       #090908;
+      --bg2:      #111110;
+      --gold:     #C9A96E;
+      --gold-lt:  #E8C98A;
+      --cream:    #F2EDE4;
+      --muted:    #7a7570;
+      --border:   rgba(201,169,110,.18);
+      --radius:   4px;
+      --ff-head:  'Bebas Neue', sans-serif;
+      --ff-serif: 'DM Serif Display', serif;
+      --ff-body:  'DM Sans', sans-serif;
+    }
 
-        h1 {
-            font-size: 40px;
-            color: #38bdf8;
-        }
+    html { scroll-behavior: smooth; }
 
-        p {
-            font-size: 18px;
-        }
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: var(--ff-body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+      cursor: none;
+    }
 
-        .btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 25px;
-            background: #38bdf8;
-            color: black;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-        }
+    /* ── CUSTOM CURSOR ── */
+    .cursor {
+      width: 10px; height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform .1s, width .25s, height .25s, background .25s;
+    }
+    .cursor.expand {
+      width: 36px; height: 36px;
+      background: transparent;
+      border: 1.5px solid var(--gold);
+    }
 
-        .section {
-            padding: 40px 20px;
-        }
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: .5;
+    }
 
-        .portfolio img {
-            width: 90%;
-            max-width: 300px;
-            margin: 10px;
-            border-radius: 10px;
-        }
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 5vw;
+      z-index: 100;
+      background: linear-gradient(to bottom, rgba(9,9,8,.95) 60%, transparent);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(6px);
+    }
+    .nav-logo {
+      font-family: var(--ff-head);
+      font-size: 1.5rem;
+      letter-spacing: .12em;
+      color: var(--gold-lt);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--cream); }
+    nav ul { list-style: none; display: flex; gap: 2.5rem; }
+    nav ul a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: .82rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+    nav ul a:hover { color: var(--gold-lt); }
+    .nav-cta {
+      border: 1px solid var(--gold);
+      padding: .45rem 1.2rem;
+      border-radius: var(--radius);
+      color: var(--gold) !important;
+      transition: background .2s, color .2s !important;
+    }
+    .nav-cta:hover { background: var(--gold) !important; color: var(--bg) !important; }
 
-        footer {
-            padding: 20px;
-            background: #020617;
-            margin-top: 30px;
-        }
-    </style>
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center;
+      padding: 12rem 5vw 6rem;
+      overflow: hidden;
+    }
+    .hero-grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    }
+    .hero-accent {
+      position: absolute;
+      width: 520px; height: 520px;
+      background: radial-gradient(circle, rgba(201,169,110,.12) 0%, transparent 70%);
+      top: 10%; right: -5%;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: .78rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp .8s .2s forwards;
+    }
+    .hero-title {
+      font-family: var(--ff-head);
+      font-size: clamp(4.5rem, 11vw, 10rem);
+      line-height: .92;
+      letter-spacing: .02em;
+      color: var(--cream);
+      opacity: 0;
+      animation: fadeUp .9s .35s forwards;
+    }
+    .hero-title em {
+      font-family: var(--ff-serif);
+      font-style: italic;
+      color: var(--gold-lt);
+      display: block;
+    }
+    .hero-sub {
+      max-width: 480px;
+      margin-top: 2.2rem;
+      color: var(--muted);
+      font-size: 1rem;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp .9s .5s forwards;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; margin-top: 3rem; flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp .9s .65s forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .85rem 2rem;
+      border-radius: var(--radius);
+      font-size: .85rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: none;
+      transition: all .25s;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--bg);
+    }
+    .btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); }
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--cream);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+    .hero-scroll {
+      margin-top: 5rem;
+      display: flex; align-items: center; gap: 1rem;
+      color: var(--muted); font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
+      opacity: 0; animation: fadeUp .9s .85s forwards;
+    }
+    .scroll-line {
+      width: 48px; height: 1px; background: var(--muted);
+      animation: lineGrow 1.5s 1.5s forwards;
+      transform-origin: left;
+    }
+    .hero-stats {
+      position: absolute; right: 5vw; bottom: 8%;
+      display: flex; flex-direction: column; gap: 2rem; text-align: right;
+      opacity: 0; animation: fadeUp .9s .75s forwards;
+    }
+    .stat-num {
+      font-family: var(--ff-head);
+      font-size: 2.8rem;
+      color: var(--gold-lt);
+      line-height: 1;
+    }
+    .stat-label { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1.1rem 0;
+      background: var(--bg2);
+    }
+    .marquee-track {
+      display: flex; gap: 3rem; width: max-content;
+      animation: marquee 22s linear infinite;
+    }
+    .marquee-item {
+      white-space: nowrap;
+      font-family: var(--ff-head);
+      font-size: 1rem;
+      letter-spacing: .25em;
+      color: var(--muted);
+      display: flex; align-items: center; gap: 3rem;
+    }
+    .marquee-item .dot { width: 5px; height: 5px; background: var(--gold); border-radius: 50%; }
+
+    /* ── SECTION COMMONS ── */
+    section { position: relative; z-index: 1; }
+    .section-inner { max-width: 1200px; margin: 0 auto; padding: 0 5vw; }
+    .sec-label {
+      font-size: .7rem; letter-spacing: .3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+      display: flex; align-items: center; gap: .8rem;
+    }
+    .sec-label::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+    .sec-title {
+      font-family: var(--ff-head);
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      letter-spacing: .04em;
+      line-height: 1;
+      color: var(--cream);
+    }
+
+    /* ── ABOUT ── */
+    #about { padding: 10rem 0; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .about-visual {
+      position: relative;
+    }
+    .about-box {
+      aspect-ratio: 4/5;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+    }
+    .about-box-inner {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 1.5rem;
+    }
+    .about-logo-big {
+      font-family: var(--ff-head);
+      font-size: 5rem;
+      letter-spacing: .15em;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .about-logo-sub {
+      font-size: .7rem;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .about-corner {
+      position: absolute;
+      width: 24px; height: 24px;
+      border-color: var(--gold);
+      border-style: solid;
+    }
+    .about-corner.tl { top: 16px; left: 16px; border-width: 1px 0 0 1px; }
+    .about-corner.tr { top: 16px; right: 16px; border-width: 1px 1px 0 0; }
+    .about-corner.bl { bottom: 16px; left: 16px; border-width: 0 0 1px 1px; }
+    .about-corner.br { bottom: 16px; right: 16px; border-width: 0 1px 1px 0; }
+    .about-float {
+      position: absolute;
+      bottom: -1.5rem; right: -1.5rem;
+      background: var(--gold);
+      color: var(--bg);
+      padding: 1.2rem 1.5rem;
+      font-family: var(--ff-head);
+      font-size: 1rem;
+      letter-spacing: .1em;
+    }
+    .about-text p { color: var(--muted); margin-top: 1.5rem; font-weight: 300; line-height: 1.9; }
+    .about-text p + p { margin-top: 1rem; }
+    .about-tags {
+      display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2rem;
+    }
+    .tag {
+      font-size: .72rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      padding: .4rem .9rem;
+      border-radius: 100px;
+      color: var(--muted);
+    }
+
+    /* ── SERVICES ── */
+    #services { padding: 10rem 0; background: var(--bg2); }
+    .services-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 5rem; flex-wrap: wrap; gap: 2rem;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1px;
+      border: 1px solid var(--border);
+    }
+    .service-card {
+      padding: 3rem 2.5rem;
+      border-right: 1px solid var(--border);
+      background: var(--bg2);
+      transition: background .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .35s;
+    }
+    .service-card:hover { background: #161512; }
+    .service-card:hover::after { transform: scaleX(1); }
+    .service-icon {
+      width: 48px; height: 48px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 2rem;
+      font-size: 1.4rem;
+      transition: border-color .3s;
+    }
+    .service-card:hover .service-icon { border-color: var(--gold); }
+    .service-num {
+      font-family: var(--ff-head);
+      font-size: .75rem;
+      letter-spacing: .2em;
+      color: var(--gold);
+      opacity: .6;
+      margin-bottom: .5rem;
+    }
+    .service-name {
+      font-family: var(--ff-serif);
+      font-size: 1.4rem;
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+    .service-desc { color: var(--muted); font-size: .9rem; font-weight: 300; line-height: 1.8; }
+
+    /* ── PROCESS ── */
+    #process { padding: 10rem 0; }
+    .process-steps {
+      margin-top: 4rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+    }
+    .process-step {
+      padding: 3rem 2rem;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .process-step:last-child { border-right: none; }
+    .process-step-num {
+      font-family: var(--ff-head);
+      font-size: 4rem;
+      color: var(--border);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+    .process-step-title {
+      font-family: var(--ff-serif);
+      font-size: 1.15rem;
+      color: var(--cream);
+      margin-bottom: .8rem;
+    }
+    .process-step-desc { font-size: .85rem; color: var(--muted); font-weight: 300; line-height: 1.8; }
+    .process-arrow {
+      position: absolute; top: 50%; right: -1rem;
+      transform: translateY(-50%);
+      width: 2rem; height: 2rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .65rem;
+      color: var(--gold);
+      z-index: 2;
+    }
+
+    /* ── TOOLS ── */
+    #tools { padding: 8rem 0; background: var(--bg2); }
+    .tools-grid {
+      display: flex; flex-wrap: wrap; gap: 1px;
+      border: 1px solid var(--border);
+      margin-top: 4rem;
+    }
+    .tool-item {
+      flex: 1 1 150px;
+      padding: 2rem;
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; align-items: center; gap: .8rem;
+      text-align: center;
+      transition: background .25s;
+    }
+    .tool-item:hover { background: rgba(201,169,110,.05); }
+    .tool-emoji { font-size: 1.8rem; }
+    .tool-name { font-size: .75rem; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+
+    /* ── PORTFOLIO TEASER ── */
+    #work { padding: 10rem 0; }
+    .work-intro { margin-bottom: 4rem; }
+    .work-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .work-card {
+      aspect-ratio: 4/3;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+      cursor: none;
+    }
+    .work-card.tall { aspect-ratio: 3/4; }
+    .work-card-bg {
+      position: absolute; inset: 0;
+      transition: transform .5s ease;
+    }
+    .work-card:hover .work-card-bg { transform: scale(1.04); }
+    .work-card-bg.food {
+      background: linear-gradient(135deg, #1a0f05 0%, #2d1a08 50%, #1a0f05 100%);
+    }
+    .work-card-bg.brand {
+      background: linear-gradient(135deg, #050d1a 0%, #0a1a30 50%, #050d1a 100%);
+    }
+    .work-card-bg.social {
+      background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+    }
+    .work-card-bg.ai {
+      background: linear-gradient(135deg, #0a0510 0%, #180a28 50%, #0a0510 100%);
+    }
+    .work-card-pattern {
+      position: absolute; inset: 0;
+      opacity: .35;
+    }
+    .work-card-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 1.5rem;
+      background: linear-gradient(to top, rgba(9,9,8,.95) 0%, transparent 100%);
+      transform: translateY(100%);
+      transition: transform .35s;
+    }
+    .work-card:hover .work-card-info { transform: translateY(0); }
+    .work-card-title { font-family: var(--ff-serif); font-size: 1.1rem; color: var(--cream); }
+    .work-card-cat { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-top: .25rem; }
+    .work-tag {
+      position: absolute; top: 1rem; left: 1rem;
+      font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+      background: rgba(201,169,110,.15); border: 1px solid var(--border);
+      color: var(--gold); padding: .3rem .7rem; border-radius: 100px;
+    }
+    .work-card-icon {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      font-size: 3.5rem; opacity: .15;
+    }
+    .work-cta { margin-top: 3rem; text-align: center; }
+
+    /* ── CONTACT ── */
+    #contact { padding: 12rem 0; }
+    .contact-inner {
+      max-width: 800px; margin: 0 auto; text-align: center;
+    }
+    .contact-inner .sec-label { justify-content: center; }
+    .contact-inner .sec-title { margin-top: 1rem; }
+    .contact-inner .sec-title em {
+      font-family: var(--ff-serif); font-style: italic; color: var(--gold-lt);
+    }
+    .contact-subtitle { color: var(--muted); margin-top: 1.5rem; font-weight: 300; }
+    .contact-links {
+      display: flex; justify-content: center; gap: 1.5rem; margin-top: 3rem; flex-wrap: wrap;
+    }
+    .contact-link {
+      display: flex; align-items: center; gap: .75rem;
+      padding: 1.1rem 2rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--cream);
+      font-size: .85rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: all .25s;
+    }
+    .contact-link:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-3px);
+    }
+    .contact-link-icon { font-size: 1.2rem; }
+    .contact-email {
+      display: inline-block;
+      margin-top: 2.5rem;
+      font-family: var(--ff-serif);
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--gold-lt);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .contact-email:hover { color: var(--cream); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo { font-family: var(--ff-head); font-size: 1rem; letter-spacing: .15em; color: var(--gold); }
+    .footer-copy { font-size: .75rem; color: var(--muted); letter-spacing: .08em; }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { font-size: .72rem; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes lineGrow {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+
+    /* reveal on scroll */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      nav ul { display: none; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-visual { max-width: 380px; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .process-step { border-bottom: 1px solid var(--border); }
+      .process-arrow { display: none; }
+      .work-row { grid-template-columns: 1fr; }
+      .hero-stats { position: static; flex-direction: row; margin-top: 3rem; text-align: left; }
+    }
+    @media (max-width: 600px) {
+      .hero-title { font-size: clamp(3.5rem, 14vw, 5rem); }
+      .process-steps { grid-template-columns: 1fr; }
+    }
+
+    /* ── HAMBURGER (mobile) ── */
+    .hamburger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      cursor: none; background: none; border: none; padding: .5rem;
+    }
+    .hamburger span { display: block; width: 24px; height: 1px; background: var(--cream); transition: .3s; }
+    @media (max-width: 900px) { .hamburger { display: flex; } }
+    .mobile-menu {
+      display: none;
+      position: fixed; inset: 0; background: var(--bg);
+      z-index: 98; flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-family: var(--ff-head); font-size: 2.5rem; letter-spacing: .1em; color: var(--cream); text-decoration: none; }
+    .mobile-menu a:hover { color: var(--gold); }
+  </style>
 </head>
-
 <body>
 
-<header>
-    <h1>SR Studio</h1>
-    <p>Professional Graphic Design Services</p>
-    <a href="https://instagram.com/sharprootstudio" class="btn">Contact Me</a>
-</header>
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
 
-<section class="section">
-    <h2>My Services</h2>
-    <p>Logo Design | Social Media Posts | Ad Banners</p>
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">SHARP ROOT<span> STUDIO</span></a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#work" onclick="closeMobile()">Work</a>
+  <a href="#contact" onclick="closeMobile()">Hire Me</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-accent"></div>
+  <div class="section-inner">
+    <p class="hero-eyebrow">Creative Design Agency — Kolhapur, Maharashtra</p>
+    <h1 class="hero-title">
+      Design That<br>
+      <em>Cuts Through.</em>
+    </h1>
+    <p class="hero-sub">
+      Branding, social media visuals, marketing design &amp; AI-powered creative content — built for brands that refuse to be ignored.
+    </p>
+    <div class="hero-actions">
+      <a href="#services" class="btn btn-primary">View Services →</a>
+      <a href="#contact" class="btn btn-outline">Start a Project</a>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      Scroll to explore
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Projects Done</div>
+      </div>
+      <div>
+        <div class="stat-num">5★</div>
+        <div class="stat-label">Fiverr Rating</div>
+      </div>
+      <div>
+        <div class="stat-num">AI</div>
+        <div class="stat-label">Powered</div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class="section portfolio">
-    <h2>My Work</h2>
-    <img src="https://via.placeholder.com/300" alt="Design 1">
-    <img src="https://via.placeholder.com/300" alt="Design 2">
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">Brand Identity <span class="dot"></span></div>
+    <div class="marquee-item">Social Media Design <span class="dot"></span></div>
+    <div class="marquee-item">AI Visual Content <span class="dot"></span></div>
+    <div class="marquee-item">Marketing Banners <span class="dot"></span></div>
+    <div class="marquee-item">Logo Design <span class="dot"></span></div>
+    <div class="marquee-item">Food &amp; Beverage Ads <span class="dot"></span></div>
+    <div class="marquee-item">Packaging Design <span class="dot"></span></div>
+    <div class="marquee-item">Brand Identity <span class="dot"></span></div>
+    <div class="marquee-item">Social Media Design <span class="dot"></span></div>
+    <div class="marquee-item">AI Visual Content <span class="dot"></span></div>
+    <div class="marquee-item">Marketing Banners <span class="dot"></span></div>
+    <div class="marquee-item">Logo Design <span class="dot"></span></div>
+    <div class="marquee-item">Food &amp; Beverage Ads <span class="dot"></span></div>
+    <div class="marquee-item">Packaging Design <span class="dot"></span></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <div class="about-box">
+          <div class="about-corner tl"></div>
+          <div class="about-corner tr"></div>
+          <div class="about-corner bl"></div>
+          <div class="about-corner br"></div>
+          <div class="about-box-inner">
+            <div class="about-logo-big">SRS</div>
+            <div class="about-logo-sub">Sharp Root Studio</div>
+          </div>
+        </div>
+        <div class="about-float">EST. 2024</div>
+      </div>
+      <div class="about-text reveal">
+        <div class="sec-label">About the Studio</div>
+        <h2 class="sec-title">Where Craft<br>Meets Vision</h2>
+        <p>
+          Hi, I'm Siddhant — the designer behind Sharp Root Studio. Based in the heart of Maharashtra near Kolhapur, I'm a self-taught graphic designer with a passion for creating visuals that actually <em>work</em>.
+        </p>
+        <p>
+          From scroll-stopping social media posts to full brand identities and AI-powered marketing visuals, I bring a sharp eye and creative precision to every project. My work lives at the intersection of traditional design craft and cutting-edge AI tools.
+        </p>
+        <p>
+          I also bring a unique perspective as an Ayurveda (BAMS) student — making me especially suited for wellness, herbal, and health brand design.
+        </p>
+        <div class="about-tags">
+          <span class="tag">Branding</span>
+          <span class="tag">Social Media</span>
+          <span class="tag">AI Visuals</span>
+          <span class="tag">Wellness Design</span>
+          <span class="tag">Canva Pro</span>
+          <span class="tag">Fiverr Seller</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="services-header reveal">
+      <div>
+        <div class="sec-label">What I Offer</div>
+        <h2 class="sec-title">Services Built<br>to Perform</h2>
+      </div>
+      <p style="max-width:320px;color:var(--muted);font-size:.9rem;font-weight:300;">
+        Every deliverable is crafted with strategy, aesthetics, and your audience in mind.
+      </p>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-icon">🎨</div>
+        <div class="service-name">Brand Identity</div>
+        <p class="service-desc">Logo design, color palettes, typography systems, and brand guidelines that give your business a consistent, professional face.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-icon">📱</div>
+        <div class="service-name">Social Media Design</div>
+        <p class="service-desc">Instagram posts, reels covers, story templates, Facebook ads — scroll-stopping content built for engagement and growth.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <div class="service-icon">🤖</div>
+        <div class="service-name">AI-Powered Visuals</div>
+        <p class="service-desc">Hyper-realistic product photography, creative concept art and campaign visuals generated with Midjourney, DALL-E &amp; Leonardo AI.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <div class="service-icon">🥭</div>
+        <div class="service-name">Food &amp; Beverage Ads</div>
+        <p class="service-desc">Mouth-watering marketing banners and ad creatives for food brands, restaurants, cafés, and packaged product companies.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">05</div>
+        <div class="service-icon">🌿</div>
+        <div class="service-name">Wellness &amp; Herbal Design</div>
+        <p class="service-desc">Specialised design for Ayurvedic brands, herbal products, and health &amp; wellness businesses — with deep domain understanding.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">06</div>
+        <div class="service-icon">🖥️</div>
+        <div class="service-name">Marketing Banners</div>
+        <p class="service-desc">Web banners, HTML ads, promotional graphics, and digital marketing creatives that convert attention into action.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="sec-label">How I Work</div>
+      <h2 class="sec-title">The Process</h2>
+    </div>
+    <div class="process-steps reveal">
+      <div class="process-step">
+        <div class="process-step-num">01</div>
+        <div class="process-step-title">Discovery</div>
+        <p class="process-step-desc">We start with your goals, audience, and vision. Understanding your brand before touching a pixel.</p>
+        <div class="process-arrow">→</div>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">02</div>
+        <div class="process-step-title">Strategy</div>
+        <p class="process-step-desc">I map out the creative direction — style, tone, colour, and references. A plan before execution.</p>
+        <div class="process-arrow">→</div>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">03</div>
+        <div class="process-step-title">Design</div>
+        <p class="process-step-desc">Concepts come to life. Revisions included. We refine until every detail is exactly right.</p>
+        <div class="process-arrow">→</div>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">04</div>
+        <div class="process-step-title">Delivery</div>
+        <p class="process-step-desc">Final files in all formats you need — ready for print, web, or social media. Clean and organised.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="sec-label">My Toolkit</div>
+      <h2 class="sec-title">Built with<br>the Best Tools</h2>
+    </div>
+    <div class="tools-grid reveal">
+      <div class="tool-item"><div class="tool-emoji">🎨</div><div class="tool-name">Canva Pro</div></div>
+      <div class="tool-item"><div class="tool-emoji">🤖</div><div class="tool-name">Midjourney</div></div>
+      <div class="tool-item"><div class="tool-emoji">🖼️</div><div class="tool-name">DALL-E</div></div>
+      <div class="tool-item"><div class="tool-emoji">⚡</div><div class="tool-name">Leonardo AI</div></div>
+      <div class="tool-item"><div class="tool-emoji">✦</div><div class="tool-name">Claude AI</div></div>
+      <div class="tool-item"><div class="tool-emoji">📐</div><div class="tool-name">Adobe Express</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="section-inner">
+    <div class="work-intro reveal">
+      <div class="sec-label">Portfolio</div>
+      <h2 class="sec-title">Selected Work</h2>
+    </div>
+    <div class="work-row reveal">
+      <div class="work-card">
+        <div class="work-card-bg food"></div>
+        <div class="work-card-icon">🥭</div>
+        <svg class="work-card-pattern" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+          <defs><pattern id="p1" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="#C9A96E" opacity=".4"/></pattern></defs>
+          <rect width="100%" height="100%" fill="url(#p1)"/>
+        </svg>
+        <div class="work-tag">Food &amp; Beverage</div>
+        <div class="work-card-info">
+          <div class="work-card-title">Premium Mango Juice Campaign</div>
+          <div class="work-card-cat">Marketing Banners · AI Visuals</div>
+        </div>
+      </div>
+      <div class="work-card">
+        <div class="work-card-bg brand"></div>
+        <div class="work-card-icon">☕</div>
+        <div class="work-tag">Branding</div>
+        <div class="work-card-info">
+          <div class="work-card-title">Cold Coffee Visual Identity</div>
+          <div class="work-card-cat">AI Prompts · Social Media</div>
+        </div>
+      </div>
+      <div class="work-card">
+        <div class="work-card-bg ai"></div>
+        <div class="work-card-icon">✨</div>
+        <div class="work-tag">AI Visuals</div>
+        <div class="work-card-info">
+          <div class="work-card-title">AI Product Photography</div>
+          <div class="work-card-cat">Midjourney · Leonardo</div>
+        </div>
+      </div>
+    </div>
+    <div class="work-row reveal" style="grid-template-columns: 1fr 2fr;">
+      <div class="work-card">
+        <div class="work-card-bg social" style="background:linear-gradient(135deg,#0a0a14,#14140a)"></div>
+        <div class="work-card-icon">🌿</div>
+        <div class="work-tag">Wellness</div>
+        <div class="work-card-info">
+          <div class="work-card-title">Herbal Brand Design</div>
+          <div class="work-card-cat">Ayurveda · Packaging</div>
+        </div>
+      </div>
+      <div class="work-card">
+        <div class="work-card-bg" style="background:linear-gradient(135deg,#0e0a00,#1a1200)"></div>
+        <div class="work-card-icon">📱</div>
+        <svg class="work-card-pattern" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid slice">
+          <defs><pattern id="p2" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse"><line x1="0" y1="80" x2="80" y2="0" stroke="#C9A96E" stroke-width=".5" opacity=".3"/></pattern></defs>
+          <rect width="100%" height="100%" fill="url(#p2)"/>
+        </svg>
+        <div class="work-tag">Social Media</div>
+        <div class="work-card-info">
+          <div class="work-card-title">Instagram Template Suite</div>
+          <div class="work-card-cat">Social Media Design · Branding</div>
+        </div>
+      </div>
+    </div>
+    <div class="work-cta reveal">
+      <a href="https://www.fiverr.com" target="_blank" rel="noopener" class="btn btn-outline">See More on Fiverr →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-inner reveal">
+      <div class="sec-label">Get in Touch</div>
+      <h2 class="sec-title">Ready to Make<br><em>Something Sharp?</em></h2>
+      <p class="contact-subtitle">Whether it's a logo, a full brand kit, or a social media makeover — let's build it together. Drop me a message on any platform below.</p>
+      <div class="contact-links">
+        <a href="https://www.fiverr.com" target="_blank" rel="noopener" class="contact-link">
+          <span class="contact-link-icon">🛒</span> Fiverr
+        </a>
+        <a href="https://www.instagram.com" target="_blank" rel="noopener" class="contact-link">
+          <span class="contact-link-icon">📸</span> Instagram
+        </a>
+        <a href="mailto:sharprootstudio@gmail.com" class="contact-link">
+          <span class="contact-link-icon">✉️</span> Email Me
+        </a>
+      </div>
+      <a href="mailto:sharprootstudio@gmail.com" class="contact-email">sharprootstudio@gmail.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-    <p>© 2026 SR Studio</p>
+  <div class="footer-logo">SHARP ROOT STUDIO</div>
+  <div class="footer-copy">© 2024 Sharp Root Studio. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </div>
 </footer>
 
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, .service-card, .work-card').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+  });
+
+  // Mobile menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  function closeMobile() { mobileMenu.classList.remove('open'); }
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Active nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav ul a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 200) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold-lt)' : '';
+    });
+  });
+</script>
 </body>
 </html>
+
+
+
